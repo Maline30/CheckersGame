@@ -17,12 +17,12 @@ public class CheckersApp extends Application {
 
     private Group tileGroup = new Group();
     private Group pawnGroup = new Group();
-
+    //Create a game board 8x8
     private Parent createContent() {
         Pane window = new Pane();
         window.setPrefSize(WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
         window.getChildren().addAll(tileGroup, pawnGroup);
-
+        //Placement of pawns for the game
         for (int y = 0; y < HEIGHT; y++){
             for (int x = 0; x < WIDTH; x++){
                 Tiles tiles = new Tiles((x + y) % 2 == 0, x, y);
@@ -50,7 +50,7 @@ public class CheckersApp extends Application {
 
         return window;
     }
-
+    //Moving pawns
     private MoveResult tryMove (Pawn pawn, int newX, int newY){
         if(board[newX][newY].hasPawn() || (newX + newY) % 2 == 0) {
             return  new MoveResult(MoveType.NONE);
@@ -64,8 +64,8 @@ public class CheckersApp extends Application {
 
             } else if(Math.abs(newX - x0) == 2 && newY - y0 == pawn.getType().moveDirection * 2) {
 
-                int x1 = x0 + (newX -x0) / 2;
-                int y1 = y0 + (newX -y0) / 2;
+                int x1 = x0 + (newX - x0) / 2;
+                int y1 = y0 + (newX - y0) / 2;
 
                 if (board[x1][y1].hasPawn() && board[x1][y1].getPawn().getType() != pawn.getType()) {
                     return new MoveResult(MoveType.KILL, board[x1][y1].getPawn());
@@ -98,6 +98,7 @@ public class CheckersApp extends Application {
             if (newX < 0 || newY < 0 || newX >= WIDTH || newY >= HEIGHT) {
 
                 result = new MoveResult(MoveType.NONE);
+
             } else {
 
                  result = tryMove(pawn, newX, newY);
